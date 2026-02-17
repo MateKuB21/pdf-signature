@@ -31,7 +31,7 @@ interface EditorState {
   addAsset: (asset: Omit<SignatureAsset, 'id'>) => SignatureAsset;
   removeAsset: (id: string) => void;
 
-  addItem: (item: Omit<SignatureItem, 'id' | 'zIndex'>) => void;
+  addItem: (item: Omit<SignatureItem, 'id' | 'zIndex' | 'opacity'>) => void;
   updateItem: (id: string, patch: Partial<SignatureItem>) => void;
   removeItem: (id: string) => void;
   duplicateItem: (id: string) => void;
@@ -94,6 +94,7 @@ export const useEditorStore = create<EditorState>((set, get) => ({
       ...itemData,
       id: nanoid(),
       zIndex: maxZ + 1,
+      opacity: 1,
     };
     set((s) => ({
       signatureItems: [...s.signatureItems, item],

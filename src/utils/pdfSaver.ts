@@ -39,6 +39,7 @@ export async function savePdf(
           y: yBL,
           width: item.widthPts,
           height: item.heightPts,
+          opacity: item.opacity,
         });
       } else {
         const cx = item.xPts + item.widthPts / 2;
@@ -58,6 +59,7 @@ export async function savePdf(
           width: item.widthPts,
           height: item.heightPts,
           rotate: degrees(-item.rotationDeg),
+          opacity: item.opacity,
         });
       }
     }

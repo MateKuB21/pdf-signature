@@ -25,4 +25,5 @@ export type SignatureItem = {
   heightPts: number;
   rotationDeg: number;
   zIndex: number;
+  opacity: number;
 };

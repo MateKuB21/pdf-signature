@@ -39,6 +39,7 @@ const StaticSignature: React.FC<StaticSignatureProps> = React.memo(
             width: '100%',
             height: '100%',
             objectFit: 'contain',
+            opacity: item.opacity,
           }}
         />
       </div>

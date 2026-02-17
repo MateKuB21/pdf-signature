@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useCallback, useRef, useState, useEffect } from 'react';
-import { Button, Tooltip } from 'antd';
+import { Button, Slider, Tooltip } from 'antd';
 import { DeleteOutlined, CopyOutlined } from '@ant-design/icons';
 import type { SignatureItem, SignatureAsset } from '@/types';
 import { useEditorStore } from '@/store/useEditorStore';
@@ -255,6 +255,7 @@ const InteractiveSignature: React.FC<InteractiveSignatureProps> = ({
           height: '100%',
           objectFit: 'contain',
           pointerEvents: 'auto',
+          opacity: item.opacity,
         }}
       />
 
@@ -347,10 +348,14 @@ const InteractiveSignature: React.FC<InteractiveSignatureProps> = ({
             className="flex items-center gap-1"
             style={{
               position: 'absolute',
-              bottom: -32,
+              bottom: -36,
               left: '50%',
               transform: 'translateX(-50%)',
               zIndex: 20,
+              background: '#fff',
+              borderRadius: 6,
+              padding: '2px 8px',
+              boxShadow: '0 1px 4px rgba(0,0,0,0.15)',
             }}
           >
             <Tooltip title="ลบ">
@@ -373,6 +378,22 @@ const InteractiveSignature: React.FC<InteractiveSignatureProps> = ({
                   duplicateItem(item.id);
                 }}
               />
+            </Tooltip>
+            <Tooltip title={`ความโปร่งใส ${Math.round(item.opacity * 100)}%`}>
+              <div
+                style={{ width: 80 }}
+                onPointerDown={(e) => e.stopPropagation()}
+                onClick={(e) => e.stopPropagation()}
+              >
+                <Slider
+                  min={0.1}
+                  max={1}
+                  step={0.05}
+                  value={item.opacity}
+                  onChange={(val: number) => updateItem(item.id, { opacity: val })}
+                  tooltip={{ formatter: (v) => `${Math.round((v ?? 1) * 100)}%` }}
+                />
+              </div>
             </Tooltip>
           </div>
         </>
