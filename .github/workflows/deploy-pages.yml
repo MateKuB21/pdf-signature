@@ -1,3 +1,5 @@
+# ต้องตั้งค่า repo: Settings → Pages → Build and deployment → Source = "GitHub Actions"
+# ก่อน push ครั้งแรก ไม่เช่นนั้น deploy จะขึ้น HttpError: Not Found
 name: Deploy to GitHub Pages
 
 on:
@@ -32,10 +34,22 @@ jobs:
       - name: Build
         run: yarn build
 
+      # User/Org Pages (repo ชื่อ xxx.github.io) ต้องใส่เนื้อหาในโฟลเดอร์ pdf-signature
+      # เพื่อให้ asset อยู่ที่ /pdf-signature/_next/... ตรงกับ basePath
+      - name: Prepare artifact
+        run: |
+          if [ "${{ github.event.repository.name }}" = "${{ github.event.repository.owner }}.github.io" ]; then
+            mkdir -p gh-pages/pdf-signature
+            cp -r out/* gh-pages/pdf-signature/
+            echo "ARTIFACT_PATH=gh-pages" >> $GITHUB_ENV
+          else
+            echo "ARTIFACT_PATH=out" >> $GITHUB_ENV
+          fi
+
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: out
+          path: ${{ env.ARTIFACT_PATH }}
 
   deploy:
     needs: build
