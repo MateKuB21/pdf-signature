@@ -25,7 +25,7 @@ import { savePdf } from '@/utils/pdfSaver';
 
 const { Text } = Typography;
 
-const MAX_FILE_SIZE = 200 * 1024 * 1024; // 200MB
+// No file size limit
 
 const ZOOM_OPTIONS = [
   { value: 0.5, label: '50%' },
@@ -59,10 +59,6 @@ export default function Toolbar() {
     async (file: File) => {
       if (file.type !== 'application/pdf') {
         message.error('กรุณาอัปโหลดไฟล์ PDF เท่านั้น');
-        return false;
-      }
-      if (file.size > MAX_FILE_SIZE) {
-        message.error('ไฟล์ต้องมีขนาดไม่เกิน 200MB');
         return false;
       }
       if (!pdfjsLib) {
